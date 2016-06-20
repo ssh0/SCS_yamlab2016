@@ -69,16 +69,18 @@ class Percolation(object):
         fig = plt.figure()
         ax = fig.add_subplot(111)
         maxtag = np.amax(self.lattice)
-        rect = np.ma.masked_equal(self.lattice, 0)
-        palette = plt.cm.jet
+        # rect = np.ma.masked_equal(self.lattice, 0)
+        rect = self.lattice
+        rect[rect == 0] = -1
+        palette = plt.cm.gray
         palette.set_over('b', 1.0)
-        palette.set_under('k', 1.0)
+        palette.set_under('w', 1.0)
         palette.set_bad('w', 1.0)
         for i, tag in enumerate(list(self.ptag)):
             rect[rect == tag] = maxtag + i + 1
         # ax.matshow(rect, cmap=plt.cm.jet)
         ax.matshow(rect, cmap=palette,
-                   norm=colors.Normalize(vmin=maxtag-1, vmax=maxtag, clip=False))
+                   norm=colors.Normalize(vmin=1, vmax=maxtag, clip=False))
         ax.set_xticklabels([])
         ax.set_yticklabels([])
         plt.show()
