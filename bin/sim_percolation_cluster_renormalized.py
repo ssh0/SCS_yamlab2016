@@ -10,7 +10,6 @@ from plot_fractal_dimension_renormalization import is_percolated, renormalize
 
 if __name__ == '__main__':
     per = Percolation()
-    count = 1
 
     def create_cluster(widget):
         p = float(sp.entry['p'].get_text())
@@ -25,14 +24,6 @@ if __name__ == '__main__':
         m2, M2 = renormalize(per, b)
         per.draw_canvas()
 
-    def save_to_eps():
-        global count
-        p = float(sp.entry['p'].get())
-        filename = "figure_%d(p=%s).eps" % (count, str(p))
-        d = per.canvas.postscript(file=filename)
-        print "Current canvas is saved to {}".format(filename)
-        count += 1
-
     sp = SetParameter()
     parameters = [{'L': 200},
                   {'p': 0.5927},
@@ -40,7 +31,6 @@ if __name__ == '__main__':
                   ]
     cmds = [[{'Run': create_cluster},
              {'Renormalize the cluster': renormalization}],
-            [{'Save the canvas to eps file': save_to_eps},
-             {'Quit': sp.quit}]
+            [{'Quit': sp.quit}]
             ]
     sp.show_setting_window(parameters, *cmds)

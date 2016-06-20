@@ -3,10 +3,8 @@
 #
 # written by Shotaro Fujimoto
 
-from Tkinter import Tk, Frame, Label, Entry, Button, END, YES, Toplevel, Canvas
+import matplotlib.pyplot as plt
 import numpy as np
-import sys
-from SetParameter import SetParameter
 
 
 class Percolation(object):
@@ -18,7 +16,6 @@ class Percolation(object):
         L (int)  : Lattice size (L x L)
         p (float): Probability of site occupation
         """
-        self.sub = None
         self.L = L
         self.p = p
 
@@ -26,9 +23,8 @@ class Percolation(object):
         """Create the cluster with occupation probability p.
         """
         self.lattice = np.zeros([self.L, self.L], dtype=bool)
-        if self.sub is None or not self.sub.winfo_exists():
-            rn = np.random.random([self.L, self.L])
-            self.lattice[rn < self.p], self.lattice[rn >= self.p] = True, False
+        rn = np.random.random([self.L, self.L])
+        self.lattice[rn < self.p], self.lattice[rn >= self.p] = True, False
 
     def set_labels(self):
         """Label the same number for points with connected (= cluster).
@@ -66,29 +62,16 @@ class Percolation(object):
         else:
             return False
 
-    def draw_canvas(self, canvas_size=640, margin=10):
-        default_size = canvas_size  # default size of canvas
-        r = int(default_size / (2 * self.L)) or 1
-        fig_size = 2 * r * self.L + 1
-        sub = Toplevel()
-
-        sub.title('figure  ' + '(p=%s)' % str(self.p))
-        self.canvas = Canvas(sub, width=fig_size + 2 * margin,
-                             height=fig_size + 2 * margin)
-        self.canvas.create_rectangle(margin, margin,
-                                     fig_size + margin, fig_size + margin,
-                                     outline='black', fill='white', width=1)
-        self.canvas.pack()
-
-        c = self.canvas.create_rectangle
-        rect = self.lattice
-
-        for m, n in np.array(np.nonzero(rect)).T:
-            if rect[m][n] in self.ptag:
-                c(2 * m * r + margin + 1, 2 * n * r + margin + 1,
-                  2 * (m + 1) * r + margin, 2 * (n + 1) * r + margin,
-                  outline='blue', fill='blue')
-            else:
-                c(2 * m * r + margin + 1, 2 * n * r + margin + 1,
-                  2 * (m + 1) * r + margin, 2 * (n + 1) * r + margin,
-                  outline='black', fill='black')
+    def draw_canvas(self):
+        """Draw the clusters using matplotlib.pyplot.matshow.
+        """
+        fig, ax = plt.subplots()
+        maxtag = np.amax(self.lattice)
+        rect = np.ma.masked_equal(self.lattice, 0)
+        for i, tag in enumerate(list(self.ptag)):
+            rect[rect == tag] = maxtag + i + 1
+        ax.matshow(rect, vmin=maxtag, cmap=plt.cm.gnuplot)
+        ax.set_xticklabels([])
+        ax.set_yticklabels([])
+        fig.tight_layout()
+        plt.show()
