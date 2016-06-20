@@ -4,6 +4,7 @@
 # written by Shotaro Fujimoto
 
 import matplotlib.pyplot as plt
+import matplotlib.colors as colors
 import numpy as np
 
 
@@ -67,12 +68,17 @@ class Percolation(object):
         """
         fig = plt.figure()
         ax = fig.add_subplot(111)
-        # maxtag = np.amax(self.lattice)
+        maxtag = np.amax(self.lattice)
         rect = np.ma.masked_equal(self.lattice, 0)
-        # for i, tag in enumerate(list(self.ptag)):
-        #     rect[rect == tag] = maxtag + i + 1
-        # ax.matshow(rect, vmin=maxtag, cmap=plt.cm.gnuplot)
-        ax.matshow(rect, cmap=plt.cm.jet)
+        palette = plt.cm.jet
+        palette.set_over('b', 1.0)
+        palette.set_under('k', 1.0)
+        palette.set_bad('w', 1.0)
+        for i, tag in enumerate(list(self.ptag)):
+            rect[rect == tag] = maxtag + i + 1
+        # ax.matshow(rect, cmap=plt.cm.jet)
+        ax.matshow(rect, cmap=palette,
+                   norm=colors.Normalize(vmin=maxtag-1, vmax=maxtag, clip=False))
         ax.set_xticklabels([])
         ax.set_yticklabels([])
         plt.show()

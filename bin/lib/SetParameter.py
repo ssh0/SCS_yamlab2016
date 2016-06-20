@@ -20,6 +20,7 @@ class SetParameter(object):
                       [{'<label of the button>': <function>}...]
         """
         self.root = gtk.Window()
+        self.root.tooltips = gtk.Tooltips()
         self.root.set_title('Parameter')
         self.root.connect('destroy_event', self.quit)
         self.root.connect('delete_event', self.quit)
