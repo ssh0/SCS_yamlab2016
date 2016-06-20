@@ -24,7 +24,7 @@ class Percolation(object):
         """
         self.lattice = np.zeros([self.L, self.L], dtype=bool)
         rn = np.random.random([self.L, self.L])
-        self.lattice[rn < self.p], self.lattice[rn >= self.p] = True, False
+        self.lattice[rn < self.p] = True
 
     def set_labels(self):
         """Label the same number for points with connected (= cluster).
