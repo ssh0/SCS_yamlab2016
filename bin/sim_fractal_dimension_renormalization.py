@@ -14,15 +14,13 @@ if __name__ == '__main__':
     def calc_fractal_dimension_renormalization(widget):
         per.L = int(sp.entry['L'].get_text())
         per.p = float(sp.entry['p'].get_text())
-        b = int(sp.entry['b'].get_text())
         trial = int(sp.entry['trial'].get_text())
-        calc_fractal_dimension(per, b, trial)
+        calc_fractal_dimension(per, trial)
 
     sp = SetParameter()
-    parameters = [{'L': 200},
+    parameters = [{'L': 128},
                   {'p': 0.5927},
-                  {'b': 2},
-                  {'trial': 100},
+                  {'trial': 10},
                   ]
     cmds = [{'Calculate the fractal dimension by the method of renormalization'
              : calc_fractal_dimension_renormalization},

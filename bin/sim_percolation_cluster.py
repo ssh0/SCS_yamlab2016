@@ -9,7 +9,6 @@ from create_percolation_cluster import Percolation
 
 if __name__ == '__main__':
     per = Percolation()
-    count = 1
 
     def create_cluster(widget):
         p = float(sp.entry['p'].get_text())
@@ -23,6 +22,5 @@ if __name__ == '__main__':
     parameters = [{'L': 61},
                   {'p': 0.5927}
                   ]
-    cmds = [{'Run': create_cluster},
-            {'Quit': sp.quit}]
+    cmds = [{'Run': create_cluster}, {'Quit': sp.quit}]
     sp.show_setting_window(parameters, cmds)

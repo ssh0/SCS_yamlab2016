@@ -21,11 +21,11 @@ if __name__ == '__main__':
 
     def renormalization(widget):
         b = int(sp.entry['b'].get_text())
-        m2, M2 = renormalize(per, b)
+        lattice, rlattice = renormalize(per, b)
         per.draw_canvas()
 
     sp = SetParameter()
-    parameters = [{'L': 200},
+    parameters = [{'L': 256},
                   {'p': 0.5927},
                   {'b': 2}
                   ]
