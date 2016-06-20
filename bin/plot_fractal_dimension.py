@@ -6,7 +6,7 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
-import scipy.optimize as optimize
+# import scipy.optimize as optimize
 
 
 def view_expansion(per):
@@ -27,26 +27,35 @@ def view_expansion(per):
     b = np.array([2. * k + 1 for k in range(1, int(per.L) / 2)])
     M_b = np.array(M_b)
 
-    def fit_func(parameter0, b, M_b):
-        log = np.log
-        c1 = parameter0[0]
-        c2 = parameter0[1]
-        residual = log(M_b) - c1 - c2 * log(b)
-        return residual
+    # csvファイルとして保存
+    filename = 'result_fractal_dim.csv'
+    res = np.array([b, M_b]).T
+    np.savetxt(filename, res)
+    print "File saved to '{}'.".format(filename)
 
-    parameter0 = [0.1, 2.0]
-    result = optimize.leastsq(
-        fit_func, parameter0, args=(b[:-1], M_b[:-1]))
-    c1 = result[0][0]
-    D = result[0][1]
 
-    def fitted(b, c1, D):
-        return np.exp(c1) * (b ** D)
+    # # === これより下はscipy.optimizeを用いてフィッティングした場合の例 ===
+    # def fit_func(parameter0, b, M_b):
+    #     log = np.log
+    #     c1 = parameter0[0]
+    #     c2 = parameter0[1]
+    #     residual = log(M_b) - c1 - c2 * log(b)
+    #     return residual
+
+    # parameter0 = [0.1, 2.0]
+    # result = optimize.leastsq(
+    #     fit_func, parameter0, args=(b[:-1], M_b[:-1]))
+    # c1 = result[0][0]
+    # D = result[0][1]
+    # print "D = %f" % D
+
+    # def fitted(b, c1, D):
+    #     return np.exp(c1) * (b ** D)
 
     fig = plt.figure("Fractal Dimension")
     ax = fig.add_subplot(111)
     ax.plot(b, M_b, '-o', label="p = %f" % per.p)
-    ax.plot(b, fitted(b, c1, D), label="D = %f" % D)
+    # ax.plot(b, fitted(b, c1, D), label="D = %f" % D)
     ax.set_title("Fractal Dimension")
     ax.set_xlabel(r'$b$', fontsize=16)
     ax.set_ylabel(r'$M(b)$', fontsize=16)
@@ -55,5 +64,4 @@ def view_expansion(per):
     ax.set_ymargin(0.05)
     fig.tight_layout()
     plt.legend(loc='best')
-    print "D = %f" % D
     plt.show()
