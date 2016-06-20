@@ -90,3 +90,4 @@ ENV/
 
 # custom
 result_fractal_dim.csv
+result_fractal_dim_renormalization.csv
