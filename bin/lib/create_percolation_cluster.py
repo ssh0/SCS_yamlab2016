@@ -77,10 +77,10 @@ class Percolation(object):
         palette.set_under('w', 1.0)
         palette.set_bad('w', 1.0)
         for i, tag in enumerate(list(self.ptag)):
-            rect[rect == tag] = maxtag + i + 1
+            rect[rect == tag] = maxtag + i + 2
         # ax.matshow(rect, cmap=plt.cm.jet)
         ax.matshow(rect, cmap=palette,
-                   norm=colors.Normalize(vmin=1, vmax=maxtag, clip=False))
+                   norm=colors.Normalize(vmin=1, vmax=maxtag + 1, clip=False))
         ax.set_xticklabels([])
         ax.set_yticklabels([])
         plt.show()
