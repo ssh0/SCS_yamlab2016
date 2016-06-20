@@ -3,9 +3,9 @@
 #
 # written by Shotaro Fujimoto
 
-from SetParameter import SetParameter
-from create_percolation_cluster import Percolation
-from plot_percolation_probability import plot_percolation_probability
+from lib.SetParameter import SetParameter
+from lib.create_percolation_cluster import Percolation
+from lib.plot_percolation_probability import plot_percolation_probability
 
 
 if __name__ == '__main__':

@@ -3,9 +3,9 @@
 #
 # written by Shotaro Fujimoto
 
-from SetParameter import SetParameter
-from create_percolation_cluster import Percolation
-from plot_fractal_dimension_renormalization import calc_fractal_dimension
+from lib.SetParameter import SetParameter
+from lib.create_percolation_cluster import Percolation
+from lib.plot_fractal_dimension_renormalization import calc_fractal_dimension
 
 
 if __name__ == '__main__':

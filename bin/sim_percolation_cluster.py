@@ -3,8 +3,8 @@
 #
 # written by Shotaro Fujimoto
 
-from SetParameter import SetParameter
-from create_percolation_cluster import Percolation
+from lib.SetParameter import SetParameter
+from lib.create_percolation_cluster import Percolation
 
 
 if __name__ == '__main__':

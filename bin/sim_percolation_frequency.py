@@ -3,9 +3,9 @@
 #
 # written by Shotaro Fujimoto
 
-from SetParameter import SetParameter
-from create_percolation_cluster import Percolation
-from plot_percolation_frequency import plot_percolation_freq
+from lib.SetParameter import SetParameter
+from lib.create_percolation_cluster import Percolation
+from lib.plot_percolation_frequency import plot_percolation_freq
 
 
 if __name__ == '__main__':
@@ -20,10 +20,10 @@ if __name__ == '__main__':
         plot_percolation_freq(per, L, trial, p_start, p_stop, p_num)
 
     sp = SetParameter()
-    parameters = [{'L': "10, 100, 200"},
-                  {'trial': 100},
-                  {'p_start': 0.5},
-                  {'p_stop': 0.7},
+    parameters = [{'L': "10, 40, 160"},
+                  {'trial': 50},
+                  {'p_start': 0.},
+                  {'p_stop': 1.},
                   {'p_num': 20},
                   ]
     cmds = [[{'Calculate percolation frequency': _plot_percolation_freq}],
