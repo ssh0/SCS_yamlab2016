@@ -70,7 +70,7 @@ class Percolation(object):
         ax = fig.add_subplot(111)
         maxtag = np.amax(self.lattice)
         # rect = np.ma.masked_equal(self.lattice, 0)
-        rect = self.lattice
+        rect = np.copy(self.lattice)
         rect[rect == 0] = -1
         palette = plt.cm.gray
         palette.set_over('b', 1.0)
