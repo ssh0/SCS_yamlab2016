@@ -8,8 +8,30 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def plot_percolation_prob(per, L_list, trial, p_start, p_stop, p_num=50):
-    """Plot percolation probability for given p and L.
+def calc_percolation_strength_forL(per, L, trial, ps):
+    """Calculate percolation strength for given L.
+    """
+    per.L = L
+    create_cluster = per.create_cluster
+    set_labels = per.set_labels
+    P = []
+
+    for p in ps:
+        per.p = p
+        sum_of_cluster_size = 0
+        for t in range(trial):
+            create_cluster()
+            set_labels()
+            l = per.lattice
+            l = l[np.nonzero(l)]
+            if len(l) != 0:
+                sum_of_cluster_size += np.amax(np.bincount(l.flatten()))
+        P.append(float(sum_of_cluster_size) / (trial * L ** 2))
+    return P
+
+
+def plot_percolation_probability(per, L_list, trial, p_start, p_stop, p_num=50):
+    """Plot percolation density for given p and L.
 
     --- Arguments ---
     per     (class): Instance variant of Percolation class
@@ -19,24 +41,15 @@ def plot_percolation_prob(per, L_list, trial, p_start, p_stop, p_num=50):
     p_stop  (float): The end value of p
     p_num     (int): Number of sample to generate a p-sequences
     """
-    fig = plt.figure("Percolation probability (trial={})".format(trial))
+    fig = plt.figure("Percolation density (trial={})".format(trial))
     ax = fig.add_subplot(111)
+    ps = np.linspace(p_start, p_stop, p_num)
     for L in L_list:
-        P = []
-        ps = np.linspace(p_start, p_stop, p_num)
-        for p in ps:
-            per.p = p
-            percolate = 0
-            for t in range(trial):
-                per.create_cluster()
-                per.set_labels()
-                if per.is_percolate():
-                    percolate += 1
-            P.append(float(percolate) / trial)
+        P = calc_percolation_strength_forL(per, L, trial, ps)
         ax.plot(ps, P, '-o', label='L = {}'.format(L))
     ax.set_title("Percolation probability (trial={})".format(trial))
     ax.set_xlabel(r'Occupation probability $p$', fontsize=16)
-    ax.set_ylabel(r'Percolation probability $P$', fontsize=16)
+    ax.set_ylabel(r'Percolation strength $P_{N}$', fontsize=16)
     ax.set_xlim(p_start, p_stop)
     ax.set_ylim(0., 1.)
     fig.tight_layout()

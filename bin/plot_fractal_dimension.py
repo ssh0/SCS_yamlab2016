@@ -10,6 +10,8 @@ import numpy as np
 
 
 def view_expansion(per):
+    """視野拡大法によってパーコレーションクラスターのフラクタル次元を求める関数
+    """
     lattice = np.zeros([per.L, per.L])
     lattice[per.lattice == list(per.ptag)[0]] = 1
     M_b = []
@@ -30,9 +32,10 @@ def view_expansion(per):
     # csvファイルとして保存
     filename = 'result_fractal_dim.csv'
     res = np.array([b, M_b]).T
-    np.savetxt(filename, res)
-    print "File saved to '{}'.".format(filename)
-
+    print "b, M_b"
+    print res
+    np.savetxt(filename, res, delimiter=',')
+    print "Saved to '{}'.".format(filename)
 
     # # === これより下はscipy.optimizeを用いてフィッティングした場合の例 ===
     # def fit_func(parameter0, b, M_b):
