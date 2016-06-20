@@ -6,25 +6,15 @@
 
 ## 実習時
 
-gitが使えない環境(PC室)からでは
+gitが使えない環境(PC室)からは，右上の緑色の"Clone or download"ボタンを押して，"Download ZIP"を選択してください。
 
-**tar ball 形式**
-
-```
-cd $HOME
-wget https://github.com/ssh0/SCS_yamlab2016/archive/master.tar.gz
-tar xzvf master.tar.gz
-```
-
-**zip形式**
+「ダウンロード」ディレクトリに`master.zip`というファイル名で保存されているはずなので，これをホームフォルダに移動してから，
 
 ```
-cd $HOME
-wget https://github.com/ssh0/SCS_yamlab2016/archive/master.zip
 unzip master.zip
 ```
 
-のどちらかの形式でダウンロード，展開してください。
+として展開してください。
 
 ## Gitが使える場合
 
