@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 #
-# written by Shotaro Fujimoto, May 2014.
+# written by Shotaro Fujimoto
 
-from Tkinter import *
+import pygtk
+pygtk.require('2.0')
+import gtk
 
 
 class SetParameter(object):
@@ -17,38 +19,37 @@ class SetParameter(object):
         commands_set: A list of dictionary
                       [{'<label of the button>': <function>}...]
         """
-        self.root = Tk()
-        self.root.title('Parameter')
+        self.root = gtk.Window()
+        self.root.set_title('Parameter')
+        self.root.connect('destroy_event', self.quit)
+        self.root.connect('delete_event', self.quit)
 
-        frame = []
-        frame.append(Frame(self.root, padx=5, pady=5))
-        frame[-1].pack(side='top')
         self.entry = {}
+        vbox = gtk.VBox(spacing=3)
         for i, parameter in enumerate(parameters):
-            param_name = parameter.items()[0][0]
-            if i == 0:
-                first_param = param_name
-            label = Label(frame[-1], text=param_name + ' = ')
-            label.grid(row=i, column=0, sticky=E)
-            self.entry[param_name] = Entry(frame[-1], width=10)
-            self.entry[param_name].grid(row=i, column=1)
-            self.entry[param_name].delete(0, END)
-            self.entry[param_name].insert(0, parameter.items()[0][1])
-        self.entry[first_param].focus_set()
+            hbox = gtk.HBox(spacing=5)
+            param_name = str(parameter.items()[0][0])
+            label = gtk.Label()
+            label.set_text(param_name + ' = ')
+            entry = gtk.Entry()
+            entry.set_text(str(parameter.items()[0][1]))
+            self.entry[param_name] = entry
+            hbox.add(label)
+            hbox.add(entry)
+            vbox.add(hbox)
 
         for commands in commands_set:
-            frame.append(Frame(self.root, padx=5, pady=5))
-            frame[-1].pack(side='top')
-            self.button = []
+            hbox = gtk.HBox(spacing=5)
             for i, command in enumerate(commands):
-                self.button.append(Button(frame[-1],
-                                          text=command.items()[0][0],
-                                          command=command.items()[0][1]
-                                          )
-                                   )
-                self.button[i].grid(row=0, column=i)
+                button = gtk.Button()
+                button.set_label(command.items()[0][0])
+                button.connect('clicked', command.items()[0][1])
+                hbox.add(button)
+            vbox.add(hbox)
 
-        self.root.mainloop()
+        self.root.add(vbox)
+        self.root.show_all()
+        gtk.main()
 
-    def quit(self):
-        self.root.destroy()
+    def quit(self, widget, data=None):
+        gtk.main_quit()

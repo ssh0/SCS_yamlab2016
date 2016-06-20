@@ -11,11 +11,11 @@ from plot_fractal_dimension_renormalization import calc_fractal_dimension
 if __name__ == '__main__':
     per = Percolation()
 
-    def calc_fractal_dimension_renormalization():
-        per.L = int(sp.entry['L'].get())
-        per.p = float(sp.entry['p'].get())
-        b = int(sp.entry['b'].get())
-        trial = int(sp.entry['trial'].get())
+    def calc_fractal_dimension_renormalization(widget):
+        per.L = int(sp.entry['L'].get_text())
+        per.p = float(sp.entry['p'].get_text())
+        b = int(sp.entry['b'].get_text())
+        trial = int(sp.entry['trial'].get_text())
         calc_fractal_dimension(per, b, trial)
 
     sp = SetParameter()

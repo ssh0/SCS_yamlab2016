@@ -12,17 +12,16 @@ if __name__ == '__main__':
     per = Percolation()
     count = 1
 
-    def create_cluster():
-        p = float(sp.entry['p'].get())
-        L = int(sp.entry['L'].get())
-        per.p = p
-        per.L = L
+    def create_cluster(widget):
+        p = float(sp.entry['p'].get_text())
+        L = int(sp.entry['L'].get_text())
+        per.p, per.L = p, L
         per.create_cluster()
         per.set_labels()
         per.draw_canvas()
 
-    def renormalization():
-        b = int(sp.entry['b'].get())
+    def renormalization(widget):
+        b = int(sp.entry['b'].get_text())
         m2, M2 = renormalize(per, b)
         per.draw_canvas()
 
