@@ -19,7 +19,7 @@ def plot_percolation_freq(per, L_list, trial, p_start, p_stop, p_num=50):
     p_stop  (float): The end value of p
     p_num     (int): Number of sample to generate a p-sequences
     """
-    fig = plt.figure("Percolation frequency (trial={})".format(trial))
+    fig = plt.figure()
     ax = fig.add_subplot(111)
     for L in L_list:
         P = []
@@ -33,12 +33,11 @@ def plot_percolation_freq(per, L_list, trial, p_start, p_stop, p_num=50):
                 if per.is_percolate():
                     percolate += 1
             P.append(float(percolate) / trial)
-        ax.plot(ps, P, '-o', label='L = {}'.format(L))
-    ax.set_title("Percolation frequency (trial={})".format(trial))
-    ax.set_xlabel(r'Occupation probability $p$', fontsize=16)
-    ax.set_ylabel(r'Percolation frequency $P$', fontsize=16)
+        ax.plot(ps, P, '-o', label='L = %d' % L)
+    ax.set_title("Percolation frequency (trial=%d)" % trial)
+    ax.set_xlabel('Occupation probability p', fontsize=16)
+    ax.set_ylabel('Percolation frequency P', fontsize=16)
     ax.set_xlim(p_start, p_stop)
     ax.set_ylim(0., 1.)
-    fig.tight_layout()
     plt.legend(loc='best')
     plt.show()

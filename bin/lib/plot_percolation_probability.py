@@ -41,17 +41,16 @@ def plot_percolation_probability(per, L_list, trial, p_start, p_stop, p_num=50):
     p_stop  (float): The end value of p
     p_num     (int): Number of sample to generate a p-sequences
     """
-    fig = plt.figure("Percolation density (trial={})".format(trial))
+    fig = plt.figure()
     ax = fig.add_subplot(111)
     ps = np.linspace(p_start, p_stop, p_num)
     for L in L_list:
         P = calc_percolation_strength_forL(per, L, trial, ps)
-        ax.plot(ps, P, '-o', label='L = {}'.format(L))
-    ax.set_title("Percolation probability (trial={})".format(trial))
+        ax.plot(ps, P, '-o', label='L = %d' % L)
+    ax.set_title("Percolation probability (trial=%d)" % trial)
     ax.set_xlabel(r'Occupation probability $p$', fontsize=16)
     ax.set_ylabel(r'Percolation strength $P_{N}$', fontsize=16)
     ax.set_xlim(p_start, p_stop)
     ax.set_ylim(0., 1.)
-    fig.tight_layout()
     plt.legend(loc='best')
     plt.show()

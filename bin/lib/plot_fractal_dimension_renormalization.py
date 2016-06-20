@@ -87,20 +87,19 @@ def calc_fractal_dimension(per, trial):
     # csvファイルとして保存
     filename = 'result_fractal_dim_renormalization.csv'
     res = np.array([X, Y]).T
-    print "2 * log(b), log(ave_M2 / ave_rM2)"
+    print "2 * log(b), log(ave_M2 / ave_rM2) = Y"
     print res
     np.savetxt(filename, res, delimiter=',')
-    print "Saved to '{}'.".format(filename)
+    print "Saved to '%s'." % filename
 
     # 可視化
-    fig = plt.figure("Fractal Dimension")
+    fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.plot(X, Y, '-o', label="L = %d, p = %f" % (per.L, per.p))
     ax.set_title("Fractal Dimension")
-    ax.set_xlabel(r'$2 \log b$', fontsize=16)
-    ax.set_ylabel(r'$\displaystyle \log \left( \frac{\langle M^{2} \rangle}{\langle M_{r}^{2}\rangle} \right)$', fontsize=16)
+    ax.set_xlabel('2 log b', fontsize=16)
+    ax.set_ylabel('Y', fontsize=16)
     ax.set_xscale('log')
     ax.set_yscale('log')
-    fig.tight_layout()
     plt.legend(loc='best')
     plt.show()

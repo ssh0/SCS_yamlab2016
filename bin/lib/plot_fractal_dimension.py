@@ -35,7 +35,7 @@ def view_expansion(per):
     print "b, M_b"
     print res
     np.savetxt(filename, res, delimiter=',')
-    print "Saved to '{}'.".format(filename)
+    print "Saved to '%s'." % filename
 
     # # === これより下はscipy.optimizeを用いてフィッティングした場合の例 ===
     # def fit_func(parameter0, b, M_b):
@@ -55,16 +55,14 @@ def view_expansion(per):
     # def fitted(b, c1, D):
     #     return np.exp(c1) * (b ** D)
 
-    fig = plt.figure("Fractal Dimension")
+    fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.plot(b, M_b, '-o', label="p = %f" % per.p)
     # ax.plot(b, fitted(b, c1, D), label="D = %f" % D)
     ax.set_title("Fractal Dimension")
-    ax.set_xlabel(r'$b$', fontsize=16)
-    ax.set_ylabel(r'$M(b)$', fontsize=16)
+    ax.set_xlabel('b', fontsize=16)
+    ax.set_ylabel('M(b)', fontsize=16)
     ax.set_xscale('log')
     ax.set_yscale('log')
-    ax.set_ymargin(0.05)
-    fig.tight_layout()
     plt.legend(loc='best')
     plt.show()

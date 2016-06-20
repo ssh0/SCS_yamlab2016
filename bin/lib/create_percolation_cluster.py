@@ -65,13 +65,14 @@ class Percolation(object):
     def draw_canvas(self):
         """Draw the clusters using matplotlib.pyplot.matshow.
         """
-        fig, ax = plt.subplots()
-        maxtag = np.amax(self.lattice)
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        # maxtag = np.amax(self.lattice)
         rect = np.ma.masked_equal(self.lattice, 0)
-        for i, tag in enumerate(list(self.ptag)):
-            rect[rect == tag] = maxtag + i + 1
-        ax.matshow(rect, vmin=maxtag, cmap=plt.cm.gnuplot)
+        # for i, tag in enumerate(list(self.ptag)):
+        #     rect[rect == tag] = maxtag + i + 1
+        # ax.matshow(rect, vmin=maxtag, cmap=plt.cm.gnuplot)
+        ax.matshow(rect, cmap=plt.cm.jet)
         ax.set_xticklabels([])
         ax.set_yticklabels([])
-        fig.tight_layout()
         plt.show()
