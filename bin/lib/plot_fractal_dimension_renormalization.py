@@ -6,6 +6,7 @@
 import numpy as np
 from create_percolation_cluster import Percolation
 import matplotlib.pyplot as plt
+import scipy.optimize as optimize
 
 
 def is_percolated(lattice, L):
@@ -84,22 +85,44 @@ def calc_fractal_dimension(per, trial):
     X = np.log(np.array(blist)) * 2
     Y = np.log(np.array(ave_M2) / np.array(ave_rM2))
 
-    # csvファイルとして保存
-    filename = 'result_fractal_dim_renormalization.csv'
-    res = np.array([X, Y]).T
-    print "2 * log(b), log(ave_M2 / ave_rM2) = Y"
-    print res
-    np.savetxt(filename, res, delimiter=',')
-    print "Saved to '%s'." % filename
+    # Ds = Y / X
+    # D = np.average(Ds)
+    # print Ds
+    # print D
+
+    # # csvファイルとして保存
+    # filename = 'result_fractal_dim_renormalization.csv'
+    # res = np.array([X, Y]).T
+    # print "2 * log(b), log(ave_M2 / ave_rM2) = Y"
+    # print res
+    # np.savetxt(filename, res, delimiter=',')
+    # print "Saved to '%s'." % filename
+
+    # # === これより下はscipy.optimizeを用いてフィッティングした場合の例 ===
+    def fit_func(parameter0, x, y):
+        c1 = parameter0[0]
+        c2 = parameter0[1]
+        residual = y - c1 - c2 * x
+        return residual
+
+    parameter0 = [0., 1.5]
+    result = optimize.leastsq(fit_func, parameter0, args=(X, Y))
+    c1 = result[0][0]
+    D = result[0][1]
+    print "D = %f" % D
+
+    def fitted(x, c1, D):
+        return D * x + c1
 
     # 可視化
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.plot(X, Y, '-o', label="L = %d, p = %f" % (per.L, per.p))
+    ax.plot(X, fitted(X, c1, D), label="D = %f" % D)
     ax.set_title("Fractal Dimension")
-    ax.set_xlabel('2 log b', fontsize=16)
-    ax.set_ylabel('Y', fontsize=16)
-    ax.set_xscale('log')
-    ax.set_yscale('log')
+    ax.set_xlabel(r'$2 \log b$', fontsize=16)
+    ax.set_ylabel(r"$\log \frac{\langle M^{2} \rangle}{\langle M'^{2} \rangle}$", fontsize=16)
+    ax.set_xscale('linear')
+    ax.set_yscale('linear')
     plt.legend(loc='best')
     plt.show()
